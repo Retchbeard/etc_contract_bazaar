@@ -1,14 +1,14 @@
 /*
 =========================================
-= Name: Simple Splitter Contract		=
-= Version: 0.1							=
-= Developer:							=
-= 	Christopher Conforti				=
-=	Solidity Crypto						=
-= Purpose:								=
-= 	Split the ether balance of the		=
-= 	contract while maintaining a		=
-=	balance of 1 ether at all times.	=
+Name: Simple Splitter Contract
+Version: 0.1
+Developer:
+	Christopher Conforti
+    Solidity Crypto
+Purpose:
+	Split the ether balance of the
+ 	contract while maintaining a
+	balance of 1 ether at all times.
 =========================================
 */
 
