@@ -1,0 +1,53 @@
+/*
+=========================================
+= Name: Simple Splitter Contract		=
+= Version: 0.1							=
+= Developer:							=
+= 	Christopher Conforti				=
+=	Solidity Crypto						=
+= Purpose:								=
+= 	Split the ether balance of the		=
+= 	contract while maintaining a		=
+=	balance of 1 ether at all times.	=
+=========================================
+*/
+
+contract owned {                                                // Ownership contract
+    address public owner;
+    
+    function owned() {                                          // Set the owner to whoever created the contract
+        owner = msg.sender;
+    }
+    
+    modifier onlyOwner {                                        // Used in functions that inherit this contract
+        if (msg.sender != owner) throw;                         // If someone who isn't the owner tries to execute a function with this modifier, tell them no.
+    }
+    
+    function transferOwnership(address newOwner) onlyOwner {
+        owner = newOwner;
+    }
+}
+
+contract splitter is owned {                                    // The actual splitty bit, and we tell it to inherit the ownership contract.
+    address split1;                                             // Setting up our address variables.
+    address split2;
+    
+    
+    function splitter(address Company, address Customer){       // Constructor function, executed only once, when the contract is deployed.
+        split1 = Company; 
+        split2 = Customer;
+    }
+    function executeSplit () onlyOwner {                        // The actual actual splitty bit, which can only be used by the owner, as per the modifier.
+        uint funds = this.balance - 1 ether;                    // We want at least 1 ether in this contract at all times!
+        uint ninety = (funds * 9) / 10;                         // Some math.
+        uint ten = (funds * 1) / 10;                            // More math. It's very important.
+        if (funds >= 0){                                        // Check if our useable funds are greater than 0.
+            split1.send (ten);
+            split2.send (ninety);
+            funds = funds - funds;                              // After sending our ether, reset the variable so we don't try to send more than we have next time.
+        }
+        if (funds <= 0){                                        // If we have less than 1 ether, then it'll laugh when you try to execute this function.
+            throw;
+        }
+    }
+}
